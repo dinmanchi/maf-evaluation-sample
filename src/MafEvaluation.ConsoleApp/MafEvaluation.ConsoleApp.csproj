@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
-    <RootNamespace>maf_evaluation_sample</RootNamespace>
+    <RootNamespace>MafEvaluation.ConsoleApp</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -17,6 +17,10 @@
     <PackageReference Include="Microsoft.Agents.AI.OpenAI" Version="1.0.0-preview.251114.1" />
     <PackageReference Include="Microsoft.Extensions.AI.Evaluation" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="10.0.0-preview.1.25560.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\MafEvaluation.ServiceDefaults\MafEvaluation.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

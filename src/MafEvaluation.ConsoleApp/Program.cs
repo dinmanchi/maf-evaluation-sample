@@ -4,14 +4,41 @@ using Azure.AI.OpenAI;
 using Azure.Identity;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
-using MafEvaluationSample;
-using MafEvaluationSample.Models;
-using MafEvaluationSample.Services;
+using MafEvaluation.ConsoleApp;
+using MafEvaluation.ConsoleApp.Models;
+using MafEvaluation.ConsoleApp.Services;
 using DotNetEnv;
 using OpenAI.Chat;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
+// Create host builder with Aspire service defaults
+var builder = Host.CreateApplicationBuilder(args);
+
+// Add Aspire service defaults (telemetry, health checks, etc.)
+builder.AddServiceDefaults();
 
 // Load environment variables from .env file
-Env.Load();
+// Try multiple locations: solution root, current directory, and project directory
+var possiblePaths = new[]
+{
+    Path.Combine(Directory.GetCurrentDirectory(), ".env"),                           // From solution root
+    Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", ".env"),    // From bin/Debug/net10.0
+    Path.Combine(Directory.GetCurrentDirectory(), "..", "..", ".env")                 // From src/project folder
+};
+
+foreach (var envPath in possiblePaths)
+{
+    if (File.Exists(envPath))
+    {
+        Env.Load(envPath);
+        break;
+    }
+}
+
+var host = builder.Build();
+
+await host.StartAsync();
 
 Console.WriteLine("=== Weather Agent with Microsoft Agent Framework ===\n");
 
@@ -196,6 +223,9 @@ if (!string.IsNullOrEmpty(projectEndpoint))
         Console.WriteLine("   This is optional - local evaluation results are available above.");
     }
 }
+
+await host.StopAsync();
+await host.WaitForShutdownAsync();
 
 // Helper method to parse function arguments
 static Dictionary<string, object> ParseArguments(IDictionary<string, object?>? arguments)

@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace MafEvaluationSample.Models;
+namespace MafEvaluation.ConsoleApp.Models;
 
 public class AgentExecutionData
 {

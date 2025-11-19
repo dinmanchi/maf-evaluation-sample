@@ -1,8 +1,8 @@
 using System.Text.Json;
 using Microsoft.Extensions.AI;
-using MafEvaluationSample.Models;
+using MafEvaluation.ConsoleApp.Models;
 
-namespace MafEvaluationSample.Services;
+namespace MafEvaluation.ConsoleApp.Services;
 
 public class EvaluationService
 {

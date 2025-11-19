@@ -44,6 +44,7 @@ Each metric provides:
 - .NET 10.0 SDK
 - Azure OpenAI deployment
 - Azure CLI (optional, for cloud evaluation)
+- .NET Aspire workload
 
 ### Setup
 
@@ -64,9 +65,19 @@ Each metric provides:
    AZURE_OPENAI_DEPLOYMENT=your-deployment-name
    ```
 
-3. **Run the sample**
+3. **Run with .NET Aspire**
    ```bash
-   dotnet run
+   dotnet run --project MafEvaluation.AppHost
+   ```
+   
+   This will:
+   - Launch the Aspire dashboard at `http://localhost:15888`
+   - Run the console app with telemetry and monitoring
+   - Display evaluation results in the console
+
+4. **Run console app directly** (without Aspire)
+   ```bash
+   dotnet run --project src/MafEvaluation.ConsoleApp
    ```
 
 ### Output Example
@@ -141,16 +152,33 @@ See [Implementation Guide](docs/IMPLEMENTATION_GUIDE.md) for complete best pract
 
 ```
 maf-evaluation-sample/
-├── Models/
-│   └── AgentExecutionData.cs      # Data structures for evaluation
-├── Services/
-│   ├── EvaluationService.cs       # LLM-as-judge evaluators
-│   └── CloudEvaluationService.cs  # Azure AI Foundry integration
-├── docs/                          # Documentation
-├── Program.cs                     # Main orchestration
-├── WeatherTool.cs                 # Mock weather function
+├── MafEvaluation.AppHost/          # .NET Aspire App Host
+│   ├── AppHost.cs                  # Aspire orchestration configuration
+│   └── appsettings.json            # App host settings
+├── MafEvaluation.ServiceDefaults/  # Shared Aspire service defaults
+│   └── Extensions.cs               # Telemetry, health checks, resilience
+├── src/
+│   └── MafEvaluation.ConsoleApp/   # Main console application
+│       ├── Models/
+│       │   └── AgentExecutionData.cs      # Data structures for evaluation
+│       ├── Services/
+│       │   ├── EvaluationService.cs       # LLM-as-judge evaluators
+│       │   └── CloudEvaluationService.cs  # Azure AI Foundry integration
+│       ├── Program.cs                     # Main orchestration with Aspire
+│       └── WeatherTool.cs                 # Mock weather function
+├── docs/                           # Documentation
+├── MafEvaluation.sln              # Solution file
 └── .env.example                   # Configuration template
 ```
+
+### Aspire Integration
+
+The application uses .NET Aspire for:
+- **Telemetry**: Distributed tracing with OpenTelemetry
+- **Dashboard**: Real-time monitoring at `http://localhost:15888`
+- **Health Checks**: Application health monitoring
+- **Service Discovery**: Managed service orchestration
+- **Logging**: Centralized log aggregation
 
 ## Dependencies
 

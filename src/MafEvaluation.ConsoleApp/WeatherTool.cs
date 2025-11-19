@@ -1,4 +1,4 @@
-namespace MafEvaluationSample;
+namespace MafEvaluation.ConsoleApp;
 
 public class WeatherTool
 {

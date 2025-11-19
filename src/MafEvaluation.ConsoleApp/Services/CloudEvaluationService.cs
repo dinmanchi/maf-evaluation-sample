@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Azure.AI.Projects;
 using Azure.Identity;
-using MafEvaluationSample.Models;
+using MafEvaluation.ConsoleApp.Models;
 
-namespace MafEvaluationSample.Services;
+namespace MafEvaluation.ConsoleApp.Services;
 
 public class CloudEvaluationService
 {
